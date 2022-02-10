@@ -1,18 +1,23 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
+import { useSelector } from 'react-redux';
 import ListTodos from '../components/ListTodos';
 import { todosData } from '../data/todos';
 import { useGetTodos } from '../hooks/useGetTodos';
 
+
 export default function Home() {
 
+    useGetTodos();
+    const todos = useSelector(state => state.todos.todos);
     const [isHidden, setIsHidden] = useState(false);
-    const listTodos = useGetTodos();
     // const [localData, setLocalData] = useState(
     //     todosData.sort((a, b) => {
     //     return a.isCompleted - b.isCompleted;
     // }));
 
+
+    
     const handleHideCompleted = () => {
         if (isHidden) {
             setIsHidden(false);
@@ -35,11 +40,9 @@ export default function Home() {
                     <Text style={{color:'#3478F6'}}>{isHidden ? "Show Completed" : "Hide Completed"}</Text>
                 </TouchableOpacity>
             </View>
-            <ListTodos
-                todosData={
-                    listTodos.filter(item => item.isToday )
-                }
-            />
+            <ListTodos todosData={todos.filter(todo => todo.isToday)} />
+            <Text style={styles.title}>Tomorrow</Text>
+            <ListTodos todosData={todos.filter(todo => !todo.isToday)} />
             {/* <ListTodos 
                 todosData={
                     localData.filter(todo => todo.isToday)

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Checkbox from './Checkbox';
-
+import moment from 'moment';
 export default function Todo({
     id,
     text,
@@ -9,9 +9,10 @@ export default function Todo({
     isToday,
     hour,
 }) {
+  const [localHour, setLocalHour] = React.useState(new Date(hour));
     return (
         <View style={styles.container}>
-          <Checkbox isCompleted={isCompleted} isToday={isToday}/>
+          <Checkbox id={id} text={text} hour={hour} isCompleted={isCompleted} isToday={isToday}/>
           <View>
             <Text style={
               isCompleted 
@@ -22,7 +23,7 @@ export default function Todo({
               isCompleted 
                 ? [styles.time, {textDecorationLine: 'line-through', color: '#73737330'}]
                 : styles.time}
-            >{hour}</Text>
+            >{moment(localHour).format('LT')}</Text>
           </View>
         </View>
     );

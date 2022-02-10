@@ -4,6 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import AddTodo from './screens/AddTodo';
+import { store } from './redux/store';
+import { Provider } from 'react-redux';
+import React from 'react';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,23 +26,25 @@ function HomeScreen (){
 }
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen 
-          name="Home" 
-          component={HomeScreen} 
-          options={{headerShown: false}} 
-        />
-        <Stack.Screen 
-          name="Add" 
-          component={AddTodo} 
-          options={{
-            presentation: 'modal',
-            headerTitle: 'Task',
-          }} 
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen 
+            name="Home" 
+            component={HomeScreen} 
+            options={{headerShown: false}} 
+          />
+          <Stack.Screen 
+            name="Add" 
+            component={AddTodo} 
+            options={{
+              presentation: 'modal',
+              headerTitle: 'Task',
+            }} 
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   )
 }
 

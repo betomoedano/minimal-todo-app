@@ -1,10 +1,26 @@
 import * as React from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
+import { updateTodoReducer } from '../redux/todosSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Checkbox({ isCompleted, isToday }) {
+export default function Checkbox({id, isCompleted, isToday, text, hour}) {
+
+  const dispatch = useDispatch();
+  const listTodos = useSelector(state => state.todos.todos);
+
+  const handleCheckbox = async () => {
+    dispatch(updateTodoReducer({id, isCompleted: !isCompleted, isToday, text, hour}));
+    try {
+      // await AsyncStorage.setItem('Todos', JSON.stringify(listTodos));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
     return isToday ? (
-      <TouchableOpacity style={isCompleted ? styles.checked : styles.unChecked}>
+      <TouchableOpacity onPress={handleCheckbox} style={isCompleted ? styles.checked : styles.unChecked}>
         {isCompleted && <Entypo name="check" size={16} color="#FAFAFA" />}
       </TouchableOpacity>
     ) : (

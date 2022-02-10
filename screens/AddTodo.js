@@ -3,41 +3,34 @@ import {View, TouchableOpacity, Text, StyleSheet, TextInput, Switch} from 'react
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation} from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodoReducer } from '../redux/todosSlice';
 
 export default function AddTodo() {
 
     const [name, setName] = React.useState('');
     const [date, setDate] = React.useState(new Date());
     const [isToday, setIsToday] = React.useState(false);
-    const [listTodos, setListTodos] = React.useState([]);
+    // const [listTodos, setListTodos] = React.useState([]);
+    const listTodos = useSelector(state => state.todos.todos);
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const addTodo = async () => {
         const newTodo = {
             id: Math.floor(Math.random() * 1000000),
             text: name,
-            hour: date,
+            hour: date.toString(),
             isToday: isToday,
             isComplited: false
         };
-        setListTodos([...listTodos, newTodo]);
         try {
             await AsyncStorage.setItem('Todos', JSON.stringify([...listTodos, newTodo]));
+            dispatch(addTodoReducer(newTodo));
             console.log('Todo saved correctly');
             navigation.goBack();
         }
         catch (e) {
-            console.log(e);
-        }
-    };
-
-    const getTodos = async () => {
-        try {
-          const todos = await AsyncStorage.getItem('Todos');
-          if(todos !== null){
-              setListTodos(JSON.parse(todos));
-          }
-        } catch (e) {
             console.log(e);
         }
     };
