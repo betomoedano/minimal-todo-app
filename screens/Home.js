@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end'
     },
     container: {
-        marginHorizontal: 15,
+        flex: 1,
+        paddingHorizontal: 15
     },
 
 });
