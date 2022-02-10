@@ -2,16 +2,16 @@ import React, {useState} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
 import ListTodos from '../components/ListTodos';
 import { todosData } from '../data/todos';
+import { useGetTodos } from '../hooks/useGetTodos';
 
 export default function Home() {
 
     const [isHidden, setIsHidden] = useState(false);
-    const [localData, setLocalData] = useState(
-        todosData.sort((a, b) => {
-        return a.isCompleted - b.isCompleted;
-    }));
-
-    
+    const listTodos = useGetTodos();
+    // const [localData, setLocalData] = useState(
+    //     todosData.sort((a, b) => {
+    //     return a.isCompleted - b.isCompleted;
+    // }));
 
     const handleHideCompleted = () => {
         if (isHidden) {
@@ -35,8 +35,12 @@ export default function Home() {
                     <Text style={{color:'#3478F6'}}>{isHidden ? "Show Completed" : "Hide Completed"}</Text>
                 </TouchableOpacity>
             </View>
-            
-            <ListTodos 
+            <ListTodos
+                todosData={
+                    listTodos.filter(item => item.isToday )
+                }
+            />
+            {/* <ListTodos 
                 todosData={
                     localData.filter(todo => todo.isToday)
                 } 
@@ -46,8 +50,7 @@ export default function Home() {
                 todosData={
                     localData.filter(todo => !todo.isToday)
                 } 
-            />
-
+            /> */}
         </View>
     )
 }

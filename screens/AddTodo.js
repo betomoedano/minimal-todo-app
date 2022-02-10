@@ -1,12 +1,46 @@
 import * as React from 'react';
 import {View, TouchableOpacity, Text, StyleSheet, TextInput, Switch} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation} from '@react-navigation/native';
 
 export default function AddTodo() {
 
     const [name, setName] = React.useState('');
     const [date, setDate] = React.useState(new Date());
     const [isToday, setIsToday] = React.useState(false);
+    const [listTodos, setListTodos] = React.useState([]);
+    const navigation = useNavigation();
+
+    const addTodo = async () => {
+        const newTodo = {
+            id: Math.floor(Math.random() * 1000000),
+            text: name,
+            hour: date,
+            isToday: isToday,
+            isComplited: false
+        };
+        setListTodos([...listTodos, newTodo]);
+        try {
+            await AsyncStorage.setItem('Todos', JSON.stringify([...listTodos, newTodo]));
+            console.log('Todo saved correctly');
+            navigation.goBack();
+        }
+        catch (e) {
+            console.log(e);
+        }
+    };
+
+    const getTodos = async () => {
+        try {
+          const todos = await AsyncStorage.getItem('Todos');
+          if(todos !== null){
+              setListTodos(JSON.parse(todos));
+          }
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -17,9 +51,7 @@ export default function AddTodo() {
                 style={styles.textInput}
                 placeholder="Task"
                 placeholderTextColor="#00000030"
-                onChangeText={(text) => {
-                    console.log(text);
-                }} 
+                onChangeText={(text) => {setName(text)}} 
             /> 
           </View>        
           <View style={styles.inputContainer}>
@@ -39,7 +71,7 @@ export default function AddTodo() {
                 onValueChange={(value) => { setIsToday(value) }}
             />
           </View>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity onPress={addTodo} style={styles.button}>
             <Text style={{color: 'white'}}>Done</Text>
           </TouchableOpacity>
           <Text style={{color: '#00000060'}}>If you disable today, the task will be considered as tomorrow</Text>
