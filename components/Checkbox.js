@@ -10,10 +10,18 @@ export default function Checkbox({id, isCompleted, isToday, text, hour}) {
   const dispatch = useDispatch();
   const listTodos = useSelector(state => state.todos.todos);
 
-  const handleCheckbox = async () => {
-    dispatch(updateTodoReducer({id, isCompleted: !isCompleted, isToday, text, hour}));
+  const handleCheckbox = () => {
     try {
-      // await AsyncStorage.setItem('Todos', JSON.stringify(listTodos));
+      dispatch(updateTodoReducer({id, isCompleted}));
+      AsyncStorage.setItem('Todos', JSON.stringify(
+        listTodos.map(todo => { 
+          if(todo.id === id) {
+            return {...todo, isCompleted: !todo.isCompleted};
+          }
+          return todo;
+        }
+      )));
+      console.log('Todo saved correctly');
     } catch (e) {
       console.log(e);
     }
