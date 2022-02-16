@@ -1,16 +1,18 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
+import { hideComplitedReducer, setTodosReducer } from '../redux/todosSlice';
 import ListTodos from '../components/ListTodos';
 import { todosData } from '../data/todos';
 import { useGetTodos } from '../hooks/useGetTodos';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home() {
 
     useGetTodos();
     const todos = useSelector(state => state.todos.todos);
     const [isHidden, setIsHidden] = useState(false);
+    const dispatch = useDispatch();
     // const [localData, setLocalData] = useState(
     //     todosData.sort((a, b) => {
     //     return a.isCompleted - b.isCompleted;
@@ -18,16 +20,22 @@ export default function Home() {
 
 
     
-    const handleHideCompleted = () => {
+    const handleHideCompleted = async () => {
         if (isHidden) {
             setIsHidden(false);
-            setLocalData(todosData.sort((a, b) => {
-                return a.isCompleted - b.isCompleted;
-            }));
+            const todos = await AsyncStorage.getItem('Todos');
+            if(todos !== null){
+                dispatch(setTodosReducer(JSON.parse(todos)));
+            }
+            // setLocalData(todosData.sort((a, b) => {
+            //     return a.isCompleted - b.isCompleted;
+            // }));
             return;
         }
         setIsHidden(!isHidden);
-        setLocalData(localData.filter(item => item.isCompleted === false));
+        dispatch(hideComplitedReducer());
+        // setLocalData(localData.filter(item => item.isCompleted === false));
+        
     }
     return (
         <View style={styles.container}>
