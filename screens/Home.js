@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
+import moment from 'moment';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -92,9 +93,9 @@ export default function Home() {
                     <Text style={{color:'#3478F6'}}>{isHidden ? "Show Completed" : "Hide Completed"}</Text>
                 </TouchableOpacity>
             </View>
-            <ListTodos todosData={todos.filter(todo => todo.isToday)} />
+            <ListTodos todosData={todos.filter(todo => moment(todo.hour).isSame(moment(), 'day'))} />
             <Text style={styles.title}>Tomorrow</Text>
-            <ListTodos todosData={todos.filter(todo => !todo.isToday)} />
+            <ListTodos todosData={todos.filter(todo => moment(todo.hour).isAfter(moment(), 'day'))} />
             {/* <ListTodos 
                 todosData={
                     localData.filter(todo => todo.isToday)

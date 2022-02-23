@@ -17,6 +17,7 @@ export default function Todo({
   const [localHour, setLocalHour] = React.useState(new Date(hour));
   const todos = useSelector(state => state.todos.todos);
   const dispatch = useDispatch();
+  const [thisTodoIsToday, setThisTodoIsToday] = hour ? React.useState(moment(hour).isSame(moment(), 'day')) : React.useState(false);
 
   const handleDeleteTodo = async () => {
     dispatch(deleteTodoReducer(id));
@@ -33,7 +34,7 @@ export default function Todo({
     return (
         <View style={styles.container}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Checkbox id={id} text={text} hour={hour} isCompleted={isCompleted} isToday={isToday}/>
+            <Checkbox id={id} text={text} hour={hour} isCompleted={isCompleted} isToday={thisTodoIsToday}/>
             <View>
               <Text style={
                 isCompleted 

@@ -56,7 +56,6 @@ export default function AddTodo() {
         } catch (e) {
             alert('The notification failed to schedule, make sure the hour is valid');
         }
-
     };
 
     return (
