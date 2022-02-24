@@ -10,8 +10,8 @@ export default function Onboarding() {
             <View style={styles.featureContainer}>
                 <Image style={styles.icon} source={require('../assets/arrows.png')} />
                 <View style={{flex: 1}}>
-                    <Text style={styles.subTitle}>Manage you daily Tasks</Text>
-                    <Text style={styles.subHeadline}>Minima is a simple app to manage your daily tasks.</Text>
+                    <Text style={styles.subTitle}>Manage Daily Tasks</Text>
+                    <Text style={styles.subHeadline}>Minima is a simple app that helps you to increase your productivity.</Text>
                 </View>
             </View>
             <View style={styles.featureContainer}>
@@ -24,8 +24,8 @@ export default function Onboarding() {
             <View style={styles.featureContainer}>
                 <Image style={styles.icon} source={require('../assets/design.png')} />
                 <View style={{flex: 1}}>
-                    <Text style={styles.subTitle}>New Design</Text>
-                    <Text style={styles.subHeadline}>Enjoy a minimal design that allows you to focus only in what you have to do.</Text>
+                    <Text style={styles.subTitle}>Minimal Design</Text>
+                    <Text style={styles.subHeadline}>Enjoy a simple design that allows you to focus only on what you have to do.</Text>
                 </View>
             </View>
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>

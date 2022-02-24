@@ -36,7 +36,7 @@ export default function Home() {
 
     useEffect(() => {
         registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-        navigation.navigate('Onboarding');
+        // navigation.navigate('Onboarding');
     }, []);
 
     const handleHideCompleted = async () => {
@@ -85,6 +85,9 @@ export default function Home() {
         return token;
     }
 
+        const todayTodos = todos.filter(todo => moment(todo.hour).isSame(moment(), 'day'));
+        const tomorrowTodos = todos.filter(todo => moment(todo.hour).isAfter(moment(), 'day')); 
+
     return (
         <View style={styles.container}>
             <Image 
@@ -96,20 +99,19 @@ export default function Home() {
                     <Text style={{color:'#3478F6'}}>{isHidden ? "Show Completed" : "Hide Completed"}</Text>
                 </TouchableOpacity>
             </View>
-            <ListTodos todosData={todos.filter(todo => moment(todo.hour).isSame(moment(), 'day'))} />
+            { todayTodos.length > 0  
+              ? <ListTodos todosData={todayTodos} />
+              : <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 20}}>
+                  <Image
+                    source={require('../assets/nothingTomorrow.png')}
+                    style={{width: 150, height: 150, marginBottom: 20, resizeMode: 'contain'}}
+                  />
+                  <Text style={{fontSize: 13, color: '#000', fontWeight: 'bold'}}>CONGRATS!</Text>
+                  <Text style={{fontSize: 13, color: '#737373', fontWeight: '500'}}>You don't have any task, enjoy your day.</Text>
+                </View>
+            }
             <Text style={styles.title}>Tomorrow</Text>
-            <ListTodos todosData={todos.filter(todo => moment(todo.hour).isAfter(moment(), 'day'))} />
-            {/* <ListTodos 
-                todosData={
-                    localData.filter(todo => todo.isToday)
-                } 
-            />
-            <Text style={styles.title}>Tomorrow</Text>
-            <ListTodos 
-                todosData={
-                    localData.filter(todo => !todo.isToday)
-                } 
-            /> */}
+            <ListTodos todosData={tomorrowTodos} />
             <StatusBar style='auto' />
         </View>
     )
