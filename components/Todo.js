@@ -35,8 +35,10 @@ export default function Todo({
         <View style={styles.container}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Checkbox id={id} text={text} hour={hour} isCompleted={isCompleted} isToday={thisTodoIsToday}/>
-            <View>
-              <Text style={
+            <View style={{flex: 1}}>
+              <Text 
+                selectable
+                style={
                 isCompleted 
                   ? [styles.text, {textDecorationLine: 'line-through', color: '#73737330'}]
                   : styles.text}
@@ -47,10 +49,10 @@ export default function Todo({
                   : styles.time}
               >{moment(localHour).format('LT')}</Text>
             </View>
+            <TouchableOpacity onPress={handleDeleteTodo}>
+              <MaterialIcons name="delete-outline" size={24} color="#73737340" style={styles.delete} />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={handleDeleteTodo}>
-            <MaterialIcons name="delete-outline" size={24} color="#73737340" style={styles.delete} />
-          </TouchableOpacity>
         </View>
     );
 }

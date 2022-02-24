@@ -28,15 +28,19 @@ export default function Home() {
     const navigation = useNavigation();
 
 
-    // const [localData, setLocalData] = useState(
-    //     todosData.sort((a, b) => {
-    //     return a.isCompleted - b.isCompleted;
-    // }));
-
     useEffect(() => {
         registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-        navigation.navigate('Onboarding');
+        checkFirstLaunch();
     }, []);
+
+    const checkFirstLaunch = async () => {
+        const firstLaunch = await AsyncStorage.getItem('@FirstLaunch');
+        if (firstLaunch) {
+            return;
+        }
+        await AsyncStorage.setItem('@FirstLaunch', 'true');
+        navigation.navigate('Onboarding');
+    }
 
     const handleHideCompleted = async () => {
         if (isHidden) {
@@ -84,15 +88,15 @@ export default function Home() {
         return token;
     }
 
-        const todayTodos = todos.filter(todo => moment(todo.hour).isSame(moment(), 'day'));
-        const tomorrowTodos = todos.filter(todo => moment(todo.hour).isAfter(moment(), 'day')); 
+    const todayTodos = todos.filter(todo => moment(todo.hour).isSame(moment(), 'day'));
+    const tomorrowTodos = todos.filter(todo => moment(todo.hour).isAfter(moment(), 'day')); 
 
     return (
         todos.length > 0 ?
         <ScrollView style={styles.container}>
-            <Image 
+            {/* <Image 
                 source={{ uri: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-photos-of-cats-cleaning-1593202999.jpg'}} 
-                style={styles.pic} />
+                style={styles.pic} /> */}
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                 <Text style={styles.title}>Today</Text>
                 <TouchableOpacity onPress={handleHideCompleted}>
@@ -125,16 +129,16 @@ export default function Home() {
             <StatusBar style='auto' />
         </ScrollView>
         : <View style={styles.container}>
-            <Image 
+            {/* <Image 
                 source={{ uri: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-photos-of-cats-cleaning-1593202999.jpg'}} 
-                style={styles.pic} />
+                style={styles.pic} /> */}
             <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
                 <Image
                     source={require('../assets/nothing.png')}
                     style={{width: 200, height: 200, marginBottom: 20, resizeMode: 'contain'}}
                 />
                 <Text style={{fontSize: 13, color: '#000', fontWeight: 'bold'}}>NICE!</Text>
-                <Text style={{fontSize: 13, color: '#737373', fontWeight: '500'}}>Nothing is scheduled for tomorrow..</Text> 
+                <Text style={{fontSize: 13, color: '#737373', fontWeight: '500'}}>Nothing is scheduled.</Text> 
             </View>
             
         </View>

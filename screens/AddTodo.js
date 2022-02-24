@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, TouchableOpacity, Text, StyleSheet, TextInput, Switch} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, TextInput, Switch, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation} from '@react-navigation/native';
@@ -59,53 +59,54 @@ export default function AddTodo() {
     };
 
     return (
-        <View style={styles.container}>
-          <Text style={styles.title}>Add a Task</Text>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputTitle}>Name</Text>
-            <TextInput
-                style={styles.textInput}
-                placeholder="Task"
-                placeholderTextColor="#00000030"
-                onChangeText={(text) => {setName(text)}} 
-            /> 
-          </View>        
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputTitle}>Hour</Text>
-            <DateTimePicker
-              value={date}
-              mode={'time'}
-              is24Hour={true}
-              onChange={(event, selectedDate) => setDate(selectedDate)}
-              style={{width: '80%'}}
-            />
-          </View>
-          <View style={[styles.inputContainer, {paddingBottom: 0, alignItems: 'center'}]}>
-            <View>
-                <Text style={styles.inputTitle}>Today</Text>
-                <Text style={{color: '#00000040', fontSize: 12, maxWidth: '84%', paddingBottom: 10}}>If you disable today, the task will be considered as tomorrow</Text>
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
+            <View style={styles.container}>
+            <Text style={styles.title}>Add a Task</Text>
+            <View style={styles.inputContainer}>
+                <Text style={styles.inputTitle}>Name</Text>
+                <TextInput
+                    style={styles.textInput}
+                    placeholder="Task"
+                    placeholderTextColor="#00000030"
+                    onChangeText={(text) => {setName(text)}} 
+                /> 
+            </View>        
+            <View style={styles.inputContainer}>
+                <Text style={styles.inputTitle}>Hour</Text>
+                <DateTimePicker
+                value={date}
+                mode={'time'}
+                is24Hour={true}
+                onChange={(event, selectedDate) => setDate(selectedDate)}
+                style={{width: '80%'}}
+                />
             </View>
+            <View style={[styles.inputContainer, {paddingBottom: 0, alignItems: 'center'}]}>
+                <View>
+                    <Text style={styles.inputTitle}>Today</Text>
+                    <Text style={{color: '#00000040', fontSize: 12, maxWidth: '84%', paddingBottom: 10}}>If you disable today, the task will be considered as tomorrow</Text>
+                </View>
+                <Switch
+                    value={isToday}
+                    onValueChange={(value) => { setIsToday(value) }}
+                />
+            </View>
+            <View style={[styles.inputContainer, {paddingBottom: 0, alignItems: 'center'}]}>
+                <View>
+                    <Text style={styles.inputTitle}>Alert</Text>
+                    <Text style={{color: '#00000040', fontSize: 12, maxWidth: '85%'}}>You will receive an alert at the time you set for this reminder</Text>
+                </View>
             <Switch
-                value={isToday}
-                onValueChange={(value) => { setIsToday(value) }}
-            />
-          </View>
-          <View style={[styles.inputContainer, {paddingBottom: 0, alignItems: 'center'}]}>
-            <View>
-                <Text style={styles.inputTitle}>Alert</Text>
-                <Text style={{color: '#00000040', fontSize: 12, maxWidth: '85%'}}>You will receive an alert at the time you set for this reminder</Text>
+                    value={withAlert}
+                    onValueChange={(value) => { setWithAlert(value) }}
+                />
             </View>
-           <Switch
-                value={withAlert}
-                onValueChange={(value) => { setWithAlert(value) }}
-            />
-          </View>
-          
-          <TouchableOpacity onPress={addTodo} style={styles.button}>
-            <Text style={{color: 'white'}}>Done</Text>
-          </TouchableOpacity>
-
-        </View>
+            
+            <TouchableOpacity onPress={addTodo} style={styles.button}>
+                <Text style={{color: 'white'}}>Done</Text>
+            </TouchableOpacity>
+            </View>
+        </TouchableWithoutFeedback>
     );
 }
 
