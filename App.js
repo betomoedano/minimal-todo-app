@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import AddTodo from './screens/AddTodo';
+import Onboarding from './screens/Onboarding';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
 import React from 'react';
@@ -28,7 +29,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen 
             name="Home" 
             component={HomeScreen} 
@@ -41,6 +42,14 @@ export default function App() {
               presentation: 'modal',
               headerTitle: 'Task',
             }} 
+          />
+          <Stack.Screen
+            name="Onboarding"
+            component={Onboarding}
+            options={{
+              headerShown: false,
+              presentation: 'modal',
+            }}
           />
         </Stack.Navigator>
       </NavigationContainer>

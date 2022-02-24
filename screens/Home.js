@@ -7,7 +7,7 @@ import { todosData } from '../data/todos';
 import { useGetTodos } from '../hooks/useGetTodos';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
-import Constants from 'expo-constants';
+import { useNavigation } from '@react-navigation/native';
 import * as Device from 'expo-device';
 import moment from 'moment';
 
@@ -26,6 +26,8 @@ export default function Home() {
     const [isHidden, setIsHidden] = useState(false);
     const dispatch = useDispatch();
     const [expoPushToken, setExpoPushToken] = useState('');
+    const navigation = useNavigation();
+
 
     // const [localData, setLocalData] = useState(
     //     todosData.sort((a, b) => {
@@ -34,6 +36,7 @@ export default function Home() {
 
     useEffect(() => {
         registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+        navigation.navigate('Onboarding');
     }, []);
 
     const handleHideCompleted = async () => {
