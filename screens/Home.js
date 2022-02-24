@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Platform, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Platform, StatusBar, ScrollView } from 'react-native';
 import { useSelector, useDispatch} from 'react-redux';
 import { hideComplitedReducer, setTodosReducer } from '../redux/todosSlice';
 import ListTodos from '../components/ListTodos';
-import { todosData } from '../data/todos';
 import { useGetTodos } from '../hooks/useGetTodos';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from 'expo-notifications';
@@ -36,7 +35,7 @@ export default function Home() {
 
     useEffect(() => {
         registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-        // navigation.navigate('Onboarding');
+        navigation.navigate('Onboarding');
     }, []);
 
     const handleHideCompleted = async () => {
@@ -89,7 +88,8 @@ export default function Home() {
         const tomorrowTodos = todos.filter(todo => moment(todo.hour).isAfter(moment(), 'day')); 
 
     return (
-        <View style={styles.container}>
+        todos.length > 0 ?
+        <ScrollView style={styles.container}>
             <Image 
                 source={{ uri: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-photos-of-cats-cleaning-1593202999.jpg'}} 
                 style={styles.pic} />
@@ -111,8 +111,32 @@ export default function Home() {
                 </View>
             }
             <Text style={styles.title}>Tomorrow</Text>
-            <ListTodos todosData={tomorrowTodos} />
+            { tomorrowTodos.length > 0  
+              ? <ListTodos todosData={tomorrowTodos} />
+              : <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 20}}>
+                  <Image
+                    source={require('../assets/nothingToday.png')}
+                    style={{width: 150, height: 150, marginBottom: 20, resizeMode: 'contain'}}
+                  />
+                  <Text style={{fontSize: 13, color: '#000', fontWeight: 'bold'}}>NICE!</Text>
+                  <Text style={{fontSize: 13, color: '#737373', fontWeight: '500'}}>Nothing is scheduled for tomorrow..</Text>
+                </View>
+            }
             <StatusBar style='auto' />
+        </ScrollView>
+        : <View style={styles.container}>
+            <Image 
+                source={{ uri: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/cute-photos-of-cats-cleaning-1593202999.jpg'}} 
+                style={styles.pic} />
+            <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
+                <Image
+                    source={require('../assets/nothing.png')}
+                    style={{width: 200, height: 200, marginBottom: 20, resizeMode: 'contain'}}
+                />
+                <Text style={{fontSize: 13, color: '#000', fontWeight: 'bold'}}>NICE!</Text>
+                <Text style={{fontSize: 13, color: '#737373', fontWeight: '500'}}>Nothing is scheduled for tomorrow..</Text> 
+            </View>
+            
         </View>
     )
 }
