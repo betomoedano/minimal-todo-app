@@ -2,7 +2,7 @@
 
 [![](https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Available_on_the_App_Store_%28black%29_SVG.svg/90px-Available_on_the_App_Store_%28black%29_SVG.svg.png)](https://apps.apple.com/us/app/minima-task-manager/id1612121187)
 
-![](https://i.ytimg.com/vi/1cSWQElaD2o/maxresdefault.jpg)
+[![](https://i.ytimg.com/vi/1cSWQElaD2o/maxresdefault.jpg)](https://www.youtube.com/watch?v=1cSWQElaD2o)
 
 ## Hello my friend!
 
