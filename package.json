@@ -10,28 +10,29 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "~1.15.0",
-    "@react-native-community/datetimepicker": "4.0.0",
+    "@react-native-async-storage/async-storage": "2.1.2",
+    "@react-native-community/datetimepicker": "8.3.0",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "@reduxjs/toolkit": "^1.7.2",
-    "expo": "~44.0.0",
-    "expo-constants": "~13.0.1",
-    "expo-device": "~4.1.0",
-    "expo-notifications": "~0.14.0",
-    "expo-status-bar": "~1.2.0",
+    "expo": "^53.0.9",
+    "expo-constants": "~17.1.6",
+    "expo-device": "~7.1.4",
+    "expo-notifications": "~0.31.1",
+    "expo-status-bar": "~2.2.3",
     "moment": "^2.29.1",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-native": "0.64.3",
-    "react-native-safe-area-context": "3.3.2",
-    "react-native-screens": "~3.10.1",
-    "react-native-web": "0.17.1",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-native": "0.79.2",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-screens": "~4.10.0",
+    "react-native-web": "^0.20.0",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.26.0"
   },
-  "private": true
+  "private": true,
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
